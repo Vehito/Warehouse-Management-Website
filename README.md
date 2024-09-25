@@ -1,12 +1,12 @@
 # Niên luận Cơ sở/Chuyên ngành CTXXX
 
-**Học kỳ**: X, **Năm học**: 20XX-20XX
+**Học kỳ**: I, **Năm học**: 2024-2025
 
-**MSSV**: X
+**MSSV**: B2111856
 
-**Họ tên**: X
+**Họ tên**: Từ Phước Nguyên
 
-**Tên đề tài**: X
+**Tên đề tài**: Website quản lý kho hàng nước giải khát
 
 ---
 

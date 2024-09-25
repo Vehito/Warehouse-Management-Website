@@ -1,0 +1,15 @@
+{
+  "name": "ct27105-project-vehito",
+  "version": "1.0.0",
+  "description": "**Học kỳ**: I, **Năm học**: 2024-2025",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tu Phuoc Nguyen",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0"
+  }
+}
