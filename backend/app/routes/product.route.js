@@ -1,16 +1,19 @@
 const express = require("express");
 const products = require("../controllers/product.controller");
 
-const router = express.Router();
+const prodRouter = express.Router();
 
-router.route("/")
+prodRouter.route("/")
     .get(products.findAll)
     .post(products.create)
     .delete(products.deleteAll);
 
-router.route("/:id")
+prodRouter.route("/:id")
     .get(products.findOne)
     .put(products.update)
     .delete(products.delete);
 
-module.exports = router;
+prodRouter.route("/:id/importShipments")
+    .get(products.findImportShipments)
+
+module.exports = prodRouter;
