@@ -17,8 +17,6 @@ app.get("/", (req, res) => {
 
 //handler 404 response
 app.use((req, res, next) => {
-    //Code chay khi khong co route nao duoc dinh nghia
-    //khop voi yeu cau. Goi next() chuyen sang middleware xu ly loi
     return next(new ApiError(404, "Resource not found!!!"));
 });
 

@@ -10,10 +10,10 @@ exports.create = async (req, res, next) => {
 
     try {
         const productService = new ProductService(MongoDB.client);
-        const document = await productService.create(req.body);
-        if(productService.findByName(document)){
+        if(await productService.findByName(req.body.name).length > 0){
             return res.send({ message: "Product existed" });
         }
+        const document = await productService.create(req.body);
         return res.send(document);
     }
     catch (error) {

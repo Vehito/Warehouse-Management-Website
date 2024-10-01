@@ -1,5 +1,4 @@
 const { ObjectId, ReturnDocument } = require("mongodb");
-const ImportShipmentController = require("../controllers/importShipment.controller");
 const Date = require("../utils/date.util");
 
 class ProductService {
@@ -12,6 +11,9 @@ class ProductService {
             name: payload.name,
             manufacturer: payload.manufacturer,
             salePrice: payload.salePrice,
+            purchasePrice: payload.purchasePrice,
+            quantity: 0,
+            createdAt: Date.getCurrentDate(),
             imgUrl: payload.imgUrl
         };
 
@@ -24,8 +26,6 @@ class ProductService {
 
     async create(payload) {
         const product = this.extractProductData(payload);
-        product.quantity = 0;
-        product.insertOne = Date.getCurrentDate();
         const result = await this.Product.insertOne(product);
         return result;
     }
@@ -86,11 +86,6 @@ class ProductService {
             {$inc: {quantity: quantity}},
             {returnDocument: "after"}
         )
-        return result;
-    }
-
-    async findImportShipmentsWithProduct(idProduct) {
-        const result = await ImportShipmentController.findWithProduct(idProduct);
         return result;
     }
 }

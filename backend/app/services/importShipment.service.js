@@ -1,5 +1,4 @@
 const { ObjectId, ReturnDocument } = require("mongodb");
-const ProductController = require("../controllers/product.controller");
 const Date = require("../utils/date.util");
 const ApiError = require("../api-error");
 
@@ -13,7 +12,7 @@ class ImportShipmentService {
 
         await Promise.all(payload.map(async (detail) => {
             const newItem = {
-                idProduct: detail.idProduct,
+                productId: detail.productId,
                 mfg: Date.getDate(detail.mfg),
                 exp: Date.getDate(detail.exp),
                 quantity: detail.quantity,
@@ -23,6 +22,10 @@ class ImportShipmentService {
             Object.keys(newItem).forEach(
                 (key) => newItem[key] === undefined && delete newItem[key]
             );
+
+            if(newItem){
+                importShipment.push(newItem);
+            }
         }));
 
         return importShipment;
@@ -34,7 +37,8 @@ class ImportShipmentService {
             throw new ApiError(404, "Must have product(s)");
         }
         const document = {
-            importDate: Date.getCurrentDateTime(),
+            createdAt: Date.getCurrentDateTime(),
+            createdBy: payload.employeeId,
             products: products
         }
         const result = await this.ImportShipment.insertOne(document);

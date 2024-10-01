@@ -21,7 +21,7 @@ exports.create = async (req, res, next) => {
         const productIds = products.map(p => p.productId);
         const existingProducts = await productService.findByIds(productIds);
 
-        if(existingProducts.length === productIds.length) {
+        if(existingProducts.length !== productIds.length) {
             return next(new ApiError(404, "One or more products not found"));
         }
 
