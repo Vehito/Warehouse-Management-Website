@@ -9,14 +9,16 @@
                 v-if="(filteredProductsCount > 0)"
                 :name=tableName
                 :tableHeaders=tableHeaders
+                :btnContent=btnContent
                 :tableRows=filteredProducts
+                @clickBtn="goToEditProduct"
             />
 
             <p v-else-if="(searchText)">
                 Không có sản phẩm chứ ký tự "{{ searchText.trim() }}"
             </p>
 
-            <p v-else>
+            <p v-else >
                 Không có sản phẩm
             </p>
 
@@ -27,7 +29,7 @@
                     <i class="fas fa-redo"></i> Làm mới
                 </button>
 
-                <button class="btn btn-sm btn-success" @click="goToAddProduct">
+                <button class="btn btn-sm btn-success" @click="print">
                     <i class="fas fa-plus"></i> Thêm mới
                 </button>
 
@@ -43,6 +45,7 @@
     import ProductService from '@/services/product.service';
     import InputSearch from '@/components/inputSearch.vue';
     import productsTable from '@/components/Table.vue';
+// import { data } from 'jquery';
 
     export default {
         components: {
@@ -58,18 +61,19 @@
                     { name: "Tên sản phẩm", key: "name"},
                     { name: "Giá bán", key: "salePrice" },
                     { name: "Giá mua", key: "purchasePrice" },
-                    { name: "Tồn kho", key: "quantity" }
+                    { name: "Tồn kho", key: "quantity" },
                 ],
                 products: [],
-                searchText: ""
+                searchText: "",
+                btnContent: '<i class="fas fa-edit"></i> Thay đổi'
             };
         },
 
         computed: {
             productStrings() {
                 return this.products.map((product) => {
-                    const { id, name, manufacturer } = product;
-                    return [id, name, manufacturer].join("");
+                    const { _id, name, manufacturer } = product;
+                    return [_id, name, manufacturer].join("");
                 })
             },
 
@@ -112,9 +116,14 @@
                 }
             },
 
-            goToAddProduct() {
-                this.$router.push({ name: "product.add" });
-            }
+            goToEditProduct(id) {
+                this.$router.push(
+                    { 
+                        name: "product.edit",
+                        params: { id: id }
+                    },
+                );
+            },
         },
 
         mounted() {

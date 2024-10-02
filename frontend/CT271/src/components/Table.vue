@@ -3,7 +3,18 @@
         props: {
             name: { type: String, default: "" },
             tableHeaders: { type: Array, default: [] },
-            tableRows: { type: Array, default: [] }
+            tableRows: { type: Array, default: [] },
+            btnContent: {
+                type: String, required: false
+            }
+        },
+
+        emits: ["clickBtn"],
+
+        methods: {
+            clickBtn(id) {
+                this.$emit('clickBtn', id);
+            }
         },
     }
 </script>
@@ -18,6 +29,7 @@
             >
                 {{ tableHeader.name }}
             </th>
+
         </thead>
 
         <tbody>
@@ -32,10 +44,22 @@
                 <td
                     v-for="(header, index) in tableHeaders.slice(1)"
                     :key="index"
+                    :class="typeof(tableRow[header.key]) === 'string' ? 'text-left' : 'text-right'"
                 >
                     {{ tableRow[header.key] }}
                 </td>
 
+                <td
+                    v-if="btnContent !== ''"
+                >
+                    <button
+                        class="btn btn-secondary"
+                        type="button"
+                        @click="clickBtn(tableRow._id)"
+                    >
+                        <span v-html="btnContent"></span>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>

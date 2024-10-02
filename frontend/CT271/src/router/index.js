@@ -12,7 +12,14 @@ const routes = [
         path: "/:pathMatch(.*)*",
         name: "notfound",
         component: () => import("@/views/NotFound.vue"),
-    }
+    },
+
+    {
+        path: "/products/:id",
+        name: "product.edit",
+        component: () => import("@/views/ProductEdit.vue"),
+        props: true
+    },
 ];
 
 const router = createRouter({
