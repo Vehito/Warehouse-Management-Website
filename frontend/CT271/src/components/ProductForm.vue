@@ -1,5 +1,5 @@
 <template>
-    <Form @submit="submitProduct" :validation-schema="productFormSchema" class="form">
+    <Form ref="form" :validation-schema="productFormSchema" class="form">
         <div class="form-group">
             <label for="name"> Tên: </label>
             <Field name="name" id="name" type="text" class="form-control" v-model="productLocal.name"/>
@@ -22,7 +22,7 @@
         <div class="form-group">
             <label for="salePrice"> Giá bán: </label>
             <Field name="salePrice" id="salePrice" type="number" class="form-control" v-model="productLocal.salePrice"/>
-            <ErrorMessage name="slaePrice" class="error-feedback" />
+            <ErrorMessage name="salePrice" class="error-feedback" />
         </div>
 
         <div class="form-group">
@@ -70,16 +70,16 @@
                               .max(75, "Tên nhà sản xuất có nhiều nhất 75 ký tự."),
 
                 purchasePrice: yup
-                               .number()
+                               .number("Vui lòng nhập số vào giá mua")
                                .required("Giá nhập vào không được trống")
                                .min(1, "Giá nhập ít nhất là 1đ")
                                .max(9999999, "Giá nhập vào cao nhất là 9.999.999đ"),
 
                 salePrice: yup
-                           .number()
-                           .required("Giá nhập vào không được trống")
-                           .min(1, "Giá nhập ít nhất là 1đ")
-                           .max(9999999, "Giá nhập vào cao nhất là 9.999.999đ"),
+                           .number("Vui lòng nhập số vào giá bán")
+                           .required("Giá bán không được trống")
+                           .min(1, "Giá bán ít nhất là 1đ")
+                           .max(9999999, "Giá bán cao nhất là 9.999.999đ"),
             });
             return {
                 productLocal: this.product,
@@ -88,8 +88,14 @@
         },
 
         methods: {
-            submitProduct() {
-                this.$emit("submit:product", this.productLocal);
+            async submitProduct() {
+                const isValid = await this.$refs.form.validate();
+                if(isValid.valid){
+                    this.$emit("submit:product", this.productLocal);
+                }
+                else {
+                    alert("Thông tin không hợp lệ");
+                }
             },
             deleteProduct() {
                 this.$emit("delete:product", this.productLocal._id);

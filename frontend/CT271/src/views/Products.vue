@@ -29,7 +29,7 @@
                     <i class="fas fa-redo"></i> Làm mới
                 </button>
 
-                <button class="btn btn-sm btn-success" @click="print">
+                <button class="btn btn-sm btn-success" @click="goToCreateProduct">
                     <i class="fas fa-plus"></i> Thêm mới
                 </button>
 
@@ -121,6 +121,14 @@
                     { 
                         name: "product.edit",
                         params: { id: id }
+                    },
+                );
+            },
+
+            goToCreateProduct() {
+                this.$router.push(
+                    {
+                        name: "product.create",
                     },
                 );
             },

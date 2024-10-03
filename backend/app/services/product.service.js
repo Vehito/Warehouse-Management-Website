@@ -36,9 +36,9 @@ class ProductService {
     }
 
     async findByName(name) {
-        return await this.find({
+        return await this.Product.find({
             name: { $regex: new RegExp(name), $options: "i" },
-        });
+        }).toArray();
     }
 
     async findById(id) {

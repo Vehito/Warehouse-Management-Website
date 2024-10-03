@@ -1,14 +1,12 @@
 <template>
     <div class="page" v-if="product && !loading">
         <h4 class="text-center text-secondary">Cập nhật Sản phẩm</h4>
-        <div class="">
             <ProductForm
                 :product="product" 
                 @submit:product="updateProduct"
                 @delete:product="deleteProduct"
             />
             <p>{{ message }}</p>
-        </div>
     </div>
     <h2 v-else-if="!loading" class="text-center">Sản phẩm không tồn tại</h2>
     <p v-else class="text-center">Đang tải sản phẩm...</p>
@@ -21,10 +19,6 @@
     export default {
         components: {
             ProductForm,
-        },
-
-        props: {
-            id: { type: String, required: true },
         },
 
         data() {
@@ -60,11 +54,11 @@
             async updateProduct(data) {
                 try {
                     await ProductService.update(this.product._id, data);
-                    alert("Sản phẩm được cập nhật thành công.");
                     this.$router.push({ name: "products" });
+                    alert("Sản phẩm được cập nhật thành công.");
                 }
                 catch (error) {
-                    console.error(error);
+                    alert(error.message);
                 };
             },
 
