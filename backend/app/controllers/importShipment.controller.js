@@ -5,7 +5,7 @@ const ProductService = require("../services/product.service");
 
 exports.create = async (req, res, next) => {
     let products = [];
-    for (const item of req.body) {
+    for (const item of req.body.products) {
         if(!item["productId"])
             return next(new ApiError(400, "Product can not be empty!"));
         else {

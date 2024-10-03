@@ -140,27 +140,3 @@
 
     };
 </script>
-
-<!-- <div class="mt-3 col-md-6">
-            <h4>
-                Danh sách sản phẩm
-            </h4>
-
-            <ProductList
-                v-if="filteredProductsCount > 0"
-                :products="filteredProducts"
-                v-model:activeIndex="activeIndex"
-            />
-            <p v-else>Không có sản phẩm nào.</p>
-
-            
-        </div>
-
-        <div class="mt-3 col-md-6">
-            <div v-if="activeProduct">
-                <h4>
-                    Chi tiết Sản phẩm
-                </h4>
-                <ProductCard :product="activeProduct" />
-            </div>
-        </div> -->

@@ -9,6 +9,7 @@ class ImportShipmentService {
 
     async extractImportShipmentData(payload) {
         let importShipment = [];
+        let total = 0;
 
         await Promise.all(payload.map(async (detail) => {
             const newItem = {
@@ -26,19 +27,25 @@ class ImportShipmentService {
             if(newItem){
                 importShipment.push(newItem);
             }
+
+            total += newItem.quantity * newItem.purchasePrice
         }));
+
+        importShipment.total = total;
 
         return importShipment;
     }
 
     async create(payload) {
-        const products = await this.extractImportShipmentData(payload);
+        const products = await this.extractImportShipmentData(payload.products);
         if(products.length === 0) {
             throw new ApiError(404, "Must have product(s)");
         }
         const document = {
+            supplier: payload.supplier,
             createdAt: Date.getCurrentDateTime(),
-            createdBy: payload.employeeId,
+            total: products.total,
+            createdBy: payload.createdBy,
             products: products
         }
         const result = await this.ImportShipment.insertOne(document);
