@@ -26,6 +26,7 @@
                 scope="col"
                 v-for="(tableHeader, index) in tableHeaders"
                 :key="index"
+                class="text-center"
             >
                 {{ tableHeader.name }}
             </th>
@@ -50,7 +51,7 @@
                 </td>
 
                 <td
-                    v-if="btnContent !== ''"
+                    v-if="btnContent"
                 >
                     <button
                         class="btn btn-secondary"

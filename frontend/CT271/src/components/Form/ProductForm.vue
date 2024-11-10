@@ -1,5 +1,5 @@
 <template>
-    <Form ref="form" :validation-schema="productFormSchema" class="form">
+    <Form @submit="submitProduct" :validation-schema="productFormSchema" class="form">
         <div class="form-group">
             <label for="name"> Tên: </label>
             <Field name="name" id="name" type="text" class="form-control" v-model="productLocal.name"/>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group">
-            <button class="btn btn-primary" @click="submitProduct">Lưu</button>
+            <button class="btn btn-primary" type="submit">Lưu</button>
             <button v-if="productLocal._id" type="button"class="btn ml-2 btn-danger" @click="deleteProduct">
                 Xóa
             </button>
@@ -40,7 +40,6 @@
 <script>
     import * as yup from "yup";
     import { Form, Field, ErrorMessage } from "vee-validate";
-    import { errorMessages } from "vue/compiler-sfc";
 
     export default {
         components: {
@@ -89,13 +88,7 @@
 
         methods: {
             async submitProduct() {
-                const isValid = await this.$refs.form.validate();
-                if(isValid.valid){
-                    this.$emit("submit:product", this.productLocal);
-                }
-                else {
-                    alert("Thông tin không hợp lệ");
-                }
+                this.$emit("submit:product", this.productLocal);
             },
             deleteProduct() {
                 this.$emit("delete:product", this.productLocal._id);

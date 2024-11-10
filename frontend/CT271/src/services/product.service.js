@@ -21,7 +21,7 @@ class ProductService {
             return (await this.api.post("/", data)).data;
         }
         catch (error) {
-            if(error.code === 409){
+            if(error.response && error.response.status === 409){
                 throw new Error("Sản phẩm đã tồn tại");
             }
             else {
@@ -35,7 +35,7 @@ class ProductService {
             return (await this.api.delete(`/${id}`)).data;
         }
         catch (error) {
-            throw new Error("Có lỗi khi xóa sản phẩm");
+            throw new Error(`Có lỗi khi xóa sản phẩm với id=${id}`);
         }
     }
 
@@ -44,7 +44,7 @@ class ProductService {
             return (await this.api.get(`/${id}`)).data;
         }
         catch (error) {
-            throw new Error("Có lỗi khi lấy sản phẩm");
+            throw new Error(`Có lỗi khi lấy sản phẩm với id=${id}`);
         }
     }
 
@@ -53,23 +53,23 @@ class ProductService {
             return (await this.api.put(`/${id}`, data)).data;
         }
         catch (error) {
-            if(error.code === 409) {
+            if(error.response && error.response.status === 409) {
                 throw new Error("Sản phẩm trùng tên với sản phẩm khác");
             }
             else {
-                throw new Error("Có lỗi khi cập nhật sản phẩm");
+                throw new Error(`Có lỗi khi cập nhật sản phẩm với id=${id}`);
             }
         }
     }
 
-    async deleteAll() {
-        try {
-            return (await this.api.delete("/")).data;
-        }
-        catch {
-            throw new Error("Có lỗi khi xóa tất cả sản phẩm");
-        }
-    }
+    // async deleteAll() {
+    //     try {
+    //         return (await this.api.delete("/")).data;
+    //     }
+    //     catch {
+    //         throw new Error("Có lỗi khi xóa tất cả sản phẩm");
+    //     }
+    // }
 }
 
 export default new ProductService();

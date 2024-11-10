@@ -12,7 +12,7 @@ class ProductService {
             manufacturer: payload.manufacturer,
             salePrice: payload.salePrice,
             purchasePrice: payload.purchasePrice,
-            quantity: 0,
+            quantity: payload.quantity,
             createdAt: Date.getCurrentDate(),
             imgUrl: payload.imgUrl
         };
@@ -26,6 +26,7 @@ class ProductService {
 
     async create(payload) {
         const product = this.extractProductData(payload);
+        product.quantity = 0;
         const result = await this.Product.insertOne(product);
         return result;
     }
@@ -36,9 +37,15 @@ class ProductService {
     }
 
     async findByName(name) {
-        return await this.Product.find({
+        return await this.find({
             name: { $regex: new RegExp(name), $options: "i" },
         }).toArray();
+    }
+
+    async findProductWithName(name) {
+        return await this.find({
+            name: name
+        });
     }
 
     async findById(id) {
@@ -62,7 +69,7 @@ class ProductService {
         const update = this.extractProductData(payload);
         const result = await this.Product.findOneAndUpdate(
             filter,
-            { $set: update  },
+            { $set: update },
             { returnDocument: "after" }
         );
         return result;

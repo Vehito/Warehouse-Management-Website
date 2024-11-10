@@ -10,7 +10,7 @@ exports.create = async (req, res, next) => {
 
     try {
         const productService = new ProductService(MongoDB.client);
-        const products = await productService.findByName(req.body?.name);
+        const products = await productService.findProductWithName(req.body?.name);
         if(products.length > 0){
             return next(new ApiError(409, "Product existed"));
         }
@@ -69,8 +69,8 @@ exports.update = async (req, res, next) => {
     };
     try {
         const productService = new ProductService(MongoDB.client);
-        const products = await productService.findByName(req.body.name);
-        if(products.length >= 1) {
+        const products = await productService.findProductWithName(req.body.name);
+        if(products.length > 1) {
             return next(new ApiError(409, "Conflict product name"));
         }
         const document = await productService.update(req.params.id, req.body);

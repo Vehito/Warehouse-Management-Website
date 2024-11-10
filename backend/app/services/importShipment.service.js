@@ -1,5 +1,4 @@
 const { ObjectId, ReturnDocument } = require("mongodb");
-const Date = require("../utils/date.util");
 const ApiError = require("../api-error");
 
 class ImportShipmentService {
@@ -14,10 +13,10 @@ class ImportShipmentService {
         await Promise.all(payload.map(async (detail) => {
             const newItem = {
                 productId: detail.productId,
-                mfg: Date.getDate(detail.mfg),
-                exp: Date.getDate(detail.exp),
+                mfg: detail.mfg,
+                exp: detail.exp,
                 quantity: detail.quantity,
-                purchasePrice: detail.purchasePrice,
+                purchasePrice: detail.price,
             };
 
             Object.keys(newItem).forEach(
@@ -42,10 +41,10 @@ class ImportShipmentService {
             throw new ApiError(404, "Must have product(s)");
         }
         const document = {
-            supplier: payload.supplier,
-            createdAt: Date.getCurrentDateTime(),
+            supplier: payload.entity,
+            createdAt: new Date(),
             total: products.total,
-            createdBy: payload.createdBy,
+            createdBy: "Từ Phước Nguyên",
             products: products
         }
         const result = await this.ImportShipment.insertOne(document);
@@ -60,11 +59,8 @@ class ImportShipmentService {
     }
 
     async findByDate(date) {
-        const startDate = Date.getDate(date);
-        const endDate = Date.getDate(date);
-        endDate.setDate(endDate.getDate() + 1);
         const cursor = this.ImportShipment.find({
-            importDate: { $gte: startDate, $lt:endDate }
+            importDate: new RegExp(date)
         });
 
         return await cursor.toArray(); 

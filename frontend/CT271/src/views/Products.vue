@@ -33,9 +33,9 @@
                     <i class="fas fa-plus"></i> Thêm mới
                 </button>
 
-                <button class="btn btn-sm btn-danger" @click="removeAllProducts">
+                <!-- <button class="btn btn-sm btn-danger" @click="removeAllProducts">
                     <i class="fas fa-trash"></i> Xóa tất cả
-                </button>
+                </button> -->
         </div>
         
     </div>
@@ -95,7 +95,7 @@
                     this.products = await ProductService.getAll();
                 }
                 catch (error) {
-                    console.error(error);
+                    alert(error.message);
                 }
             },
 
@@ -117,6 +117,7 @@
             },
 
             goToEditProduct(id) {
+                console.log("Chuyển đến chỉnh sửa sản phẩm với ID:", id);
                 this.$router.push(
                     { 
                         name: "product.edit",

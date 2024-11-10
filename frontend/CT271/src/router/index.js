@@ -1,11 +1,12 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Products from "@/views/Products.vue";
+import ImportShipments from "@/views/ImportShipment/ImportShipments.vue";
+import { compile } from "vue";
 
 const routes = [
     {
         path: "/",
         name: "products",
-        component: Products,
+        component: () => import("@/views/Products.vue"),
     },
 
     {
@@ -25,6 +26,24 @@ const routes = [
         path: "/products",
         name: "product.create",
         component: () => import("@/views/ProductCreate.vue")
+    },
+    
+    {
+        path: "/importShipments",
+        name: "importShipment",
+        component: ImportShipments,
+    },
+
+    {
+        path: "/importShipments/:id",
+        name: "importShipment.detail",
+        component: () => import("@/views/ImportShipment/ImportShipmentDetails.vue")
+    },
+
+    {
+        path: "/importShipment",
+        name: "importShipment.create",
+        component: () => import("@/views/ImportShipment/ImportShipmentCreate.vue")
     }
 ];
 

@@ -9,6 +9,6 @@ exports.getCurrentDateTime = () => {
 }
 
 exports.getDate = (dateString) => {
-    const [date, month, year] = dateString.split("-")
+    const [year, month, date] = dateString.split("-")
     return new Date(year, month-1, date);
 }

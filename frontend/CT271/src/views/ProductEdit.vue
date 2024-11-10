@@ -54,8 +54,8 @@
             async updateProduct(data) {
                 try {
                     await ProductService.update(this.product._id, data);
-                    this.$router.push({ name: "products" });
                     alert("Sản phẩm được cập nhật thành công.");
+                    this.$router.push({ name: "products" });
                 }
                 catch (error) {
                     alert(error.message);
