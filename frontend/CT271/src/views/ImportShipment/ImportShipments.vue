@@ -34,7 +34,7 @@
     import ImportShipmentService from '@/services/importShipment.service';
     import InputSearch from '@/components/inputSearch.vue';
     import ImportTable from '@/components/Table.vue';
-    import DateTime from '@/services/dateTime.service';
+    import dateUtil from '@/utlis/date.util';
 
     export default {
         components: {
@@ -84,7 +84,7 @@
                 try {
                     this.importShipments = await ImportShipmentService.getAll();
                     this.importShipments.map((importShipment) => {
-                        importShipment.createdAt = new DateTime(importShipment.createdAt).getDateTimeString();
+                        importShipment.createdAt = dateUtil.getStringDateTime(importShipment.createdAt);
                     })
                 }
                 catch (error) {

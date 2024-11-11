@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import ProductForm from '@/components/ProductForm.vue';
+    import ProductForm from '@/components/Form/ProductForm.vue';
     import ProductService from '@/services/product.service';
     
     export default {
@@ -28,7 +28,7 @@
             async createProduct(data) {
                 try {
                     await ProductService.create(data);
-                    this.$router.push({ name: "products" });
+                    this.$router.push({ name: "product" });
                     window.alert("Sản phẩm đã được tạo thành công");
                 }
                 catch (error) {

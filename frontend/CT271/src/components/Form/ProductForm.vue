@@ -99,7 +99,7 @@
                     return false;
                 }
                 else {
-                    this.$router.push({ name: "products" });
+                    this.$router.push({ name: "product" });
                 }
             }
         },

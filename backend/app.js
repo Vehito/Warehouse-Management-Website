@@ -1,15 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-const productsRouter = require("./app/routes/product.route");
-const impRouter = require("./app/routes/importShipment.route")
+const routers = require("./app/routes/index.route")
 const ApiError = require("./app/api-error");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/products", productsRouter);
-app.use("/api/importShipments", impRouter);
+app.use("/api/products", routers.product);
+app.use("/api/importShipments", routers.importShipment);
+app.use("/api/customers", routers.customer);
 
 app.get("/", (req, res) => {
     res.json({ message: "Welcome" });

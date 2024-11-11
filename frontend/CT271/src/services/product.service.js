@@ -62,14 +62,6 @@ class ProductService {
         }
     }
 
-    // async deleteAll() {
-    //     try {
-    //         return (await this.api.delete("/")).data;
-    //     }
-    //     catch {
-    //         throw new Error("Có lỗi khi xóa tất cả sản phẩm");
-    //     }
-    // }
 }
 
 export default new ProductService();

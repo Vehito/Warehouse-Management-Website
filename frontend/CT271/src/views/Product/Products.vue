@@ -33,9 +33,6 @@
                     <i class="fas fa-plus"></i> Thêm mới
                 </button>
 
-                <!-- <button class="btn btn-sm btn-danger" @click="removeAllProducts">
-                    <i class="fas fa-trash"></i> Xóa tất cả
-                </button> -->
         </div>
         
     </div>
@@ -45,7 +42,6 @@
     import ProductService from '@/services/product.service';
     import InputSearch from '@/components/inputSearch.vue';
     import productsTable from '@/components/Table.vue';
-// import { data } from 'jquery';
 
     export default {
         components: {
@@ -102,18 +98,6 @@
             refreshList() {
                 this.retrieveProducts();
                 this.searchText = "";
-            },
-
-            async removeAllProducts() {
-                if(confirm("Bạn muốn xóa tất cả Sản phẩm")) {
-                    try {
-                        await ProductService.deleteAll();
-                        this.refreshList();
-                    }
-                    catch (error) {
-                        console.error(error);
-                    }
-                }
             },
 
             goToEditProduct(id) {

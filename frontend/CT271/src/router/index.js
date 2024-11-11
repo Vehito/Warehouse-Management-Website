@@ -1,12 +1,12 @@
 import { createWebHistory, createRouter } from "vue-router";
 import ImportShipments from "@/views/ImportShipment/ImportShipments.vue";
-import { compile } from "vue";
+import Customers from "@/views/Customer/Customers.vue";
 
 const routes = [
     {
         path: "/",
-        name: "products",
-        component: () => import("@/views/Products.vue"),
+        name: "product",
+        component: () => import("@/views/Product/Products.vue"),
     },
 
     {
@@ -16,16 +16,16 @@ const routes = [
     },
 
     {
-        path: "/products/:id",
+        path: "/product/:id",
         name: "product.edit",
-        component: () => import("@/views/ProductEdit.vue"),
-        props: true
+        component: () => import("@/views/Product/ProductEdit.vue"),
+        params: true
     },
 
     {
         path: "/products",
         name: "product.create",
-        component: () => import("@/views/ProductCreate.vue")
+        component: () => import("@/views/Product/ProductCreate.vue")
     },
     
     {
@@ -44,7 +44,26 @@ const routes = [
         path: "/importShipment",
         name: "importShipment.create",
         component: () => import("@/views/ImportShipment/ImportShipmentCreate.vue")
-    }
+    },
+
+    {
+        path: "/customer",
+        name: "customer",
+        component: Customers
+    },
+
+    {
+        path: "/customer/:id",
+        name: "customer.edit",
+        component: () => import("@/views/Customer/CustomerEdit.vue"),
+        params: true
+    },
+
+    {
+        path: "/create-customer",
+        name: "customer.create",
+        component: () => import("@/views/Customer/CustomerCreate.vue")
+    },
 ];
 
 const router = createRouter({

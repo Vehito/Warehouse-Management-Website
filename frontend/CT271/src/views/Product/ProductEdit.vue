@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import ProductForm from '@/components/ProductForm.vue';
+    import ProductForm from '@/components/Form/ProductForm.vue';
     import ProductService from '@/services/product.service';
 
     export default {
@@ -55,7 +55,7 @@
                 try {
                     await ProductService.update(this.product._id, data);
                     alert("Sản phẩm được cập nhật thành công.");
-                    this.$router.push({ name: "products" });
+                    this.$router.push({ name: "product" });
                 }
                 catch (error) {
                     alert(error.message);
@@ -66,22 +66,18 @@
                 if(confirm(`Bạn muốn xóa sản phẩm ${this.product.name} ?`)) {
                     try {
                         await ProductService.delete(this.product._id);
-                        this.$router.push({ name: "products" });
+                        this.$router.push({ name: "product" });
                     }
                     catch (error) {
                         console.error(error);
                     }
                 }
             },
-
-            async created() {
-                await this.getProduct();
-                this.message = "";
-            }
         },
 
-        mounted() {
-            this.created();
+        async mounted() {
+            await this.getProduct();
+            this.message = "";
         }
     };
 </script>
