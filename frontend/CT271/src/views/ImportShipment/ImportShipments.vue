@@ -32,7 +32,7 @@
 
 <script>
     import ImportShipmentService from '@/services/importShipment.service';
-    import InputSearch from '@/components/inputSearch.vue';
+    import InputSearch from '@/components/InputSearch.vue';
     import ImportTable from '@/components/Table.vue';
     import dateUtil from '@/utlis/date.util';
 

@@ -4,7 +4,7 @@
   "description": "**Học kỳ**: I, **Năm học**: 2024-2025",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --inspect backend/server.js",
+    "start": "nodemon --inspect --ignore sessions backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tu Phuoc Nguyen",
@@ -12,13 +12,18 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
     "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
     "bootstrap": "^4.6.2",
     "cors": "^2.8.5",
     "express": "^4.21.0",
+    "express-session": "^1.18.1",
     "jquery": "^3.7.1",
     "mongodb": "^6.9.0",
     "popper.js": "^1.16.1",
-    "vue-router": "^4.4.5"
+    "session-file-store": "^1.5.0",
+    "vue-router": "^4.4.5",
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"

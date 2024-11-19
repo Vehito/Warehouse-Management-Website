@@ -1,6 +1,8 @@
 import { createWebHistory, createRouter } from "vue-router";
 import ImportShipments from "@/views/ImportShipment/ImportShipments.vue";
 import Customers from "@/views/Customer/Customers.vue";
+import Employee from "@/views/Employee/Employee.vue";
+import Login from "@/views/Login.vue";
 
 const routes = [
     {
@@ -63,6 +65,32 @@ const routes = [
         path: "/create-customer",
         name: "customer.create",
         component: () => import("@/views/Customer/CustomerCreate.vue")
+    },
+
+    {
+        path: "/employee",
+        name: "employee",
+        component: Employee
+    },
+
+    {
+        path: "/create-employee",
+        name: "employee.create",
+        component: () => import("@/views/Employee/EmployeeCreate.vue")
+    },
+
+    {
+        path: "/employee/:id",
+        name: "employee.edit",
+        component: () => import("@/views/Employee/EmployeeEdit.vue"),
+        params: true,
+        props: true
+    },
+
+    {
+        path: "/login",
+        name: "login",
+        component: Login
     },
 ];
 

@@ -40,7 +40,7 @@
 
 <script>
     import ProductService from '@/services/product.service';
-    import InputSearch from '@/components/inputSearch.vue';
+    import InputSearch from '@/components/InputSearch.vue';
     import productsTable from '@/components/Table.vue';
 
     export default {

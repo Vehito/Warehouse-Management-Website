@@ -212,16 +212,16 @@ import * as yup from "yup";
                 }
             },
 
-            formatToYYYYMMDD(date) {
-                if(!date) return;
-                let d = new Date(date),
-                    month = '' + (d.getMonth() + 1),
-                    day = '' + d.getDate(),
-                    year = d.getFullYear();
-                if(month.length < 2) month = '0' + month;
-                if(day.length < 2) day = '0' + day;
-                return [year, month, day].join('-');
-            },
+            // formatToYYYYMMDD(date) {
+            //     if(!date) return;
+            //     let d = new Date(date),
+            //         month = '' + (d.getMonth() + 1),
+            //         day = '' + d.getDate(),
+            //         year = d.getFullYear();
+            //     if(month.length < 2) month = '0' + month;
+            //     if(day.length < 2) day = '0' + day;
+            //     return [year, month, day].join('-');
+            // },
 
             async getProductsList() {
                 this.productList = await ProductService.getAll();

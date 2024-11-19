@@ -1,7 +1,7 @@
 import createApiClient from "./api.service";
 
-class CustomerService {
-    constructor(baseURL = "/api/customers") {
+class EmployeeService {
+    constructor(baseURL = "/api/employees") {
         this.api = createApiClient(baseURL);
     }
 
@@ -10,7 +10,7 @@ class CustomerService {
             return (await this.api.get("/")).data;
         }
         catch (error) {
-            throw new Error("Có lỗi khi lấy tất cả khách hàng");
+            throw new Error("Có lỗi khi lấy tất cả nhân viên");
         }
     }
 
@@ -19,9 +19,9 @@ class CustomerService {
             return (await this.api.post("/", data)).data;
         } catch (error) {
             if(error.response.status === 409) {
-                throw new Error("Khách hàng đã tồn tại");
+                throw new Error("Nhân viên đã tồn tại");
             }
-            throw new Error("Có lỗi khi tạo khách hàng");
+            throw new Error("Có lỗi khi tạo nhân viên");
         }
     }
 
@@ -31,10 +31,10 @@ class CustomerService {
         }
         catch (error) {
             if(error.response && error.response.status === 409) {
-                throw new Error("Khách hàng trùng tên với khách hàng khác");
+                throw new Error("Nhân viên trùng tên với nhân viên khác");
             }
             else {
-                throw new Error(`Có lỗi khi cập nhật khách hàng với id=${id}`);
+                throw new Error(`Có lỗi khi cập nhật nhân viên với id=${id}`);
             }
         }
     }
@@ -43,7 +43,7 @@ class CustomerService {
         try {
             return (await this.api.delete(`/${id}`)).data;
         } catch (error) {
-            throw new Error("Có lỗi khi xóa khách hàng");
+            throw new Error("Có lỗi khi xóa nhân viên");
         }
     }
 
@@ -52,9 +52,9 @@ class CustomerService {
             return (await this.api.get(`/${id}`)).data;
         }
         catch (error) {
-            throw new Error("Có lỗi khi lấy khách hàng");;
+            throw new Error("Có lỗi khi lấy nhân viên");;
         }
     }
 }
 
-export default new CustomerService();
+export default new EmployeeService();

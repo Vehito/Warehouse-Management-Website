@@ -40,7 +40,7 @@
 
 <script>
     import customerService from '@/services/customer.service';
-    import InputSearch from '@/components/inputSearch.vue';
+    import InputSearch from '@/components/InputSearch.vue';
     import CustomersTable from '@/components/Table.vue';
 import dateUtil from '@/utlis/date.util';
 
