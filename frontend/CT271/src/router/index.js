@@ -3,6 +3,7 @@ import ImportShipments from "@/views/ImportShipment/ImportShipments.vue";
 import Customers from "@/views/Customer/Customers.vue";
 import Employee from "@/views/Employee/Employee.vue";
 import Login from "@/views/Login.vue";
+import ExportShipment from "@/views/ExportShipment/ExportShipment.vue";
 
 const routes = [
     {
@@ -37,9 +38,10 @@ const routes = [
     },
 
     {
-        path: "/importShipments/:id",
-        name: "importShipment.detail",
-        component: () => import("@/views/ImportShipment/ImportShipmentDetails.vue")
+        path: "/exportShipments/:id",
+        name: "exportShipment.detail",
+        component: () => import("@/views/ExportShipment/ExportShipmentDetail.vue"),
+        params: true
     },
 
     {
@@ -92,6 +94,32 @@ const routes = [
         name: "login",
         component: Login
     },
+
+    {
+        path: "/export-shipment",
+        name: "exportShipment",
+        component: ExportShipment
+    },
+
+    {
+        path: "/exportShipment",
+        name: "exportShipment.create",
+        component: () => import("@/views/ExportShipment/ExportShipmentCreate.vue")
+    },
+
+    {
+        path: "/importShipments/:id",
+        name: "importShipment.detail",
+        component: () => import("@/views/ImportShipment/ImportShipmentDetails.vue")
+    },
+
+    {
+        path: "/product-import/:id",
+        name: "product.import",
+        component: () => import("@/views/Product/ProductImport.vue"),
+        params: true
+    }
+
 ];
 
 const router = createRouter({

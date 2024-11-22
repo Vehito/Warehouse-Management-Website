@@ -66,9 +66,12 @@ exports.findAll = async (req, res, next) => {
     let documents = [];
     try {
         const importShipmentService = new ImportShipmentService(MongoDB.client);
-        const { date } = req.query;
+        const { date, productId } = req.query;
         if(date) {
             documents = await importShipmentService.findByDate(date);
+        }
+        else if(productId) {
+            documents = await importShipmentService.findWithProduct(productId);
         }
         else {
             documents = await importShipmentService.find({});

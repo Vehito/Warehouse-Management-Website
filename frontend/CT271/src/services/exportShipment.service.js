@@ -1,7 +1,7 @@
 import createApiClient from "./api.service";
 
 class ImportShipmentService {
-    constructor(baseURL = "/api/importShipments") {
+    constructor(baseURL = "/api/exportShipments") {
         this.api = createApiClient(baseURL);
     }
 
@@ -13,7 +13,7 @@ class ImportShipmentService {
             return (await this.api.get("/")).data;
         }
         catch (error) {
-            throw new Error("Có lỗi khi lấy tất cả lô hàng nhập");
+            throw new Error("Có lỗi khi lấy tất cả lô hàng xuất");
         }
     }
 
@@ -21,7 +21,7 @@ class ImportShipmentService {
         try {
             return (await this.api.post("/", data)).data;
         } catch (error) {
-            throw new Error("Có lỗi khi tạo lô hàng nhập");
+            throw new Error("Có lỗi khi tạo lô hàng xuất");
         }
     }
 
@@ -29,7 +29,7 @@ class ImportShipmentService {
         try {
             return (await this.api.delete(`/${id}`)).data;
         } catch (error) {
-            throw new Error("Có lỗi khi xóa lô hàng nhập");
+            throw new Error("Có lỗi khi xóa lô hàng xuất");
         }
     }
 
@@ -38,7 +38,7 @@ class ImportShipmentService {
             return (await this.api.get(`/${id}`)).data;
         }
         catch (error) {
-            throw new Error("Có lỗi khi lấy lô hàng nhập");;
+            throw new Error("Có lỗi khi lấy lô hàng xuất");;
         }
     }
 }

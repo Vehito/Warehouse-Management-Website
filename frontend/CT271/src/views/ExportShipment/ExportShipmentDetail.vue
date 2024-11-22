@@ -1,20 +1,20 @@
 <template>
     <h2 class="text-center mt-3">
-        Thông tin chi tiết lô hàng nhập
+        Thông tin chi tiết lô hàng xuất
     </h2>
 
-    <p>Mã lô hàng nhập: {{ importShipment._id }}</p>
+    <p>Mã lô hàng xuất: {{ exportShipment._id }}</p>
         <p>
             Người tạo: {{ employee.name }}
             <span style="margin-left: 20px;"></span>
-            Thời gian tạo: {{ importShipment.createdAt }}
+            Thời gian tạo: {{ exportShipment.createdAt }}
         </p>
-        <p>Nhà cung cấp: {{ importShipment.supplier }}</p>
+        <p>Khách hàng: {{ customer.name }}</p>
         <p>Sản phẩm:</p>
 
         <ProductsTable 
             :tableHeaders="tableHeader"
-            :tableRows="importShipment.products"
+            :tableRows="exportShipment.products"
         />
 
         <div class="mt-3 d-flex justify-content-around">
@@ -23,7 +23,7 @@
                 type="button"
             >
                 <RouterLink 
-                    :to="{ name: 'importShipment' }"
+                    :to="{ name: 'exportShipment' }"
                     class="text-white"
                 >
                     Thoát
@@ -33,12 +33,12 @@
 </template>
 
 <script>
-    // import ShipmentDetail from '@/components/ShipmentDetail.vue';
-    import ImportShipmentService from '@/services/importShipment.service';
+    import exportShipmentService from '@/services/exportShipment.service';
+    import customerService from '@/services/customer.service';
+    import employeeService from '@/services/employee.service';
     import ProductService from '@/services/product.service';
     import dateUtil from '@/utlis/date.util';
     import ProductsTable from '@/components/Table.vue';
-    import employeeService from '@/services/employee.service';
 
     export default {
         components: {
@@ -47,17 +47,16 @@
 
         data() {
             return {
-                importShipment: {},
+                exportShipment: {},
                 productList: [],
                 tableHeader: [
                     { key: "_id", name: "ID" },
                     { key: "name", name: "Tên sản phẩm" },
                     { key: "quantity", name: "Số lượng" },
-                    { key: "purchasePrice", name: "Giá mua" },
-                    { key: "mfg", name: "Ngày sản xuất" },
-                    { key: "exp", name: "Hạn sử dụng" },
+                    { key: "salePrice", name: "Giá bán" },
                 ],
                 employee: {},
+                customer: {}
             }
         },
 
@@ -70,18 +69,20 @@
                 }
             },
 
-            async retrieveEmployee() {
-                this.employee = await employeeService.get(this.importShipment.createdBy);
+            async retrieveCustomer() {
+                this.customer = await customerService.get(this.exportShipment.customerId);
             },
 
-            async retrieveImportShipment() {
+            async retrieveEmployee() {
+                this.employee = await employeeService.get(this.exportShipment.createdBy);
+            },
+
+            async retrieveExportShipment() {
                 try {
-                    this.importShipment = await ImportShipmentService.get(this.$route.params.id);
-                    this.importShipment.createdAt = dateUtil.getStringDateTime(this.importShipment.createdAt);
-                    this.importShipment.products.map((product) => {
+                    this.exportShipment = await exportShipmentService.get(this.$route.params.id);
+                    this.exportShipment.createdAt = dateUtil.getStringDateTime(this.exportShipment.createdAt);
+                    this.exportShipment.products.map((product) => {
                         product._id = product.productId
-                        product.mfg = dateUtil.getStringDate(product.mfg);
-                        product.exp = dateUtil.getStringDate(product.exp);
                         product.name = this.getProductName(product.productId)
                     })
                 } catch (error) {
@@ -97,8 +98,13 @@
 
         async created() {
             await this.getProductList();
-            await this.retrieveImportShipment();
+            await this.retrieveExportShipment();
             await this.retrieveEmployee();
+            if(this.exportShipment.customerId) {
+                await this.retrieveCustomer();
+            } else {
+                this.customer.name = "Khách vãng lai";
+            }
         }
     }
 </script>

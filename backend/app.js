@@ -35,6 +35,7 @@ function authMiddleware(req, res, next) {
 
 app.use("/api/products", authMiddleware, routers.product);
 app.use("/api/importShipments", authMiddleware, routers.importShipment);
+app.use("/api/exportShipments", authMiddleware, routers.exportShipment);
 app.use("/api/customers", authMiddleware, routers.customer);
 app.use("/api/employees", authMiddleware, routers.employee);
 app.use("/api/auth", routers.auth);

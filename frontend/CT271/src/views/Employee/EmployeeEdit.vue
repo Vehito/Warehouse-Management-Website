@@ -54,7 +54,7 @@ import employeeService from '@/services/employee.service';
                 try {
                     await employeeService.update(this.id, data);
                     alert('Nhân viên đã được cập nhật thành công.');
-                    this.$router.push({ name: "employee" })
+                    this.$router.back();
                 } catch (error) {
                     alert(error);
                 }

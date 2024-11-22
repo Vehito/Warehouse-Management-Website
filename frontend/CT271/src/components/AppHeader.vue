@@ -32,6 +32,13 @@
                 <i class="fas fa-user"></i>
             </li>
 
+            <li class="nav-item text-center">
+                <router-link :to="{ name: 'exportShipment'}" class="nav-link">
+                    <strong>Xuất hàng</strong>
+                </router-link>
+                <i class="fas fa-user"></i>
+            </li>
+
             <li v-if="!isLoggedIn" class="nav-item text-center ml-5">
                 <router-link :to="{ name: 'login'}" class="nav-link">
                     <strong>Đăng nhập</strong>
@@ -84,9 +91,8 @@ export default {
         async logout() {
             if(this.$store.getters.isLoggedIn) {
                 try {
-                    await authService.logout();
-
                     this.$store.dispatch('logout');
+                    await authService.logout();
                     this.$router.push({
                         name: "login"
                     })

@@ -9,9 +9,10 @@
                 v-if="(filteredProductsCount > 0)"
                 :name=tableName
                 :tableHeaders=tableHeaders
-                :btnContent=btnContent
+                :btnContents=btnContents
+                :btnStyles=btnStyles
                 :tableRows=filteredProducts
-                @clickBtn="goToEditProduct"
+                @clickBtn="clickBtn"
             />
 
             <p v-else-if="(searchText)">
@@ -61,7 +62,14 @@
                 ],
                 products: [],
                 searchText: "",
-                btnContent: '<i class="fas fa-edit"></i> Thay đổi'
+                btnContents: [
+                    '<i class="fas fa-edit"></i> Thay đổi',
+                    '<i class="fas fa-eye"></i> Lịch sử nhập hàng'
+                ],
+                btnStyles: [
+                    'btn-primary btn-sm',
+                    'btn-info btn-sm mt-2',
+                ]
             };
         },
 
@@ -100,11 +108,24 @@
                 this.searchText = "";
             },
 
+            clickBtn(id, btnIndex) {
+                btnIndex === 0 ? this.goToEditProduct(id)
+                               : this.goToProductImport(id);
+            },
+
             goToEditProduct(id) {
-                console.log("Chuyển đến chỉnh sửa sản phẩm với ID:", id);
                 this.$router.push(
                     { 
                         name: "product.edit",
+                        params: { id: id }
+                    },
+                );
+            },
+
+            goToProductImport(id) {
+                this.$router.push(
+                    { 
+                        name: "product.import",
                         params: { id: id }
                     },
                 );

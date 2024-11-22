@@ -9,7 +9,8 @@
                 v-if="(filteredProductsCount > 0)"
                 :name=tableName
                 :tableHeaders=tableHeaders
-                :btnContent=btnContent
+                :btnContents=btnContent
+                :btn-styles=btnStyles
                 :tableRows=filteredCustomers
                 @clickBtn="goToEditCustomer"
             />
@@ -42,7 +43,7 @@
     import customerService from '@/services/customer.service';
     import InputSearch from '@/components/InputSearch.vue';
     import CustomersTable from '@/components/Table.vue';
-import dateUtil from '@/utlis/date.util';
+    import dateUtil from '@/utlis/date.util';
 
     export default {
         components: {
@@ -63,7 +64,8 @@ import dateUtil from '@/utlis/date.util';
                 ],
                 customers: [],
                 searchText: "",
-                btnContent: '<i class="fas fa-edit"></i> Thay đổi'
+                btnContent: ['<i class="fas fa-edit"></i> Thay đổi'],
+                btnStyles: ['btn-primary']
             };
         },
 

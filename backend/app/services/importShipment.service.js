@@ -2,8 +2,9 @@ const { ObjectId, ReturnDocument } = require("mongodb");
 const ApiError = require("../api-error");
 
 class ImportShipmentService {
+    #ImportShipment;
     constructor(client) {
-        this.ImportShipment = client.db().collection("importShipments");
+        this.#ImportShipment = client.db().collection("importShipments");
     }
 
     async extractImportShipmentData(payload) {
@@ -16,6 +17,7 @@ class ImportShipmentService {
                 mfg: detail.mfg,
                 exp: detail.exp,
                 quantity: detail.quantity,
+                stoke: detail.quantity,
                 purchasePrice: detail.price,
             };
 
@@ -44,22 +46,22 @@ class ImportShipmentService {
             supplier: payload.entity,
             createdAt: new Date(),
             total: products.total,
-            createdBy: "Từ Phước Nguyên",
+            createdBy: payload.employeeId,
             products: products
         }
-        const result = await this.ImportShipment.insertOne(document);
+        const result = await this.#ImportShipment.insertOne(document);
 
         return result;
     }
 
     async findById(id) {
-        return await this.ImportShipment.findOne({
+        return await this.#ImportShipment.findOne({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null
         });
     }
 
     async findByDate(date) {
-        const cursor = this.ImportShipment.find({
+        const cursor = this.#ImportShipment.find({
             importDate: new RegExp(date)
         });
 
@@ -67,8 +69,56 @@ class ImportShipmentService {
     }
  
     async find(filter) {
-        const cursor = await this.ImportShipment.find(filter);
+        const cursor = await this.#ImportShipment.find(filter);
         return await cursor.toArray();
+    }
+
+    async findWithProduct(productId, history=false) {
+        const importShipments = await this.find({
+            // _id: ObjectId.isValid(shipmentId) ? new ObjectId(shipmentId) : null,
+            "products.productId": productId
+        });
+
+        if(importShipments.length === 0) {
+            return [];
+        }
+
+        let result = [];
+        importShipments.forEach((shipment) => {
+            const info = shipment.products.find((product) => product.productId === productId);
+            if(!history) {
+                result.push({ 
+                    _id: shipment._id, createdAt: shipment.createdAt,
+                    stoke: info.stoke, quantity: info.quantity,
+                    exp: info.exp, purchasePrice: info.purchasePrice
+                });
+            }
+            else {
+                if(info.stoke > 0) {
+                    result.push({ 
+                        shipmentId: shipment._id, createAt: shipment.createAt,
+                        stoke: info.stoke, quantity: info.quantity,
+                        exp: info.exp, purchasePrice: info.purchasePrice
+                    });
+                }
+            }
+            
+        })
+        return result;
+    }
+
+    async decreaseQuantity(shipmentId, productId, quantity) {
+        const result = await this.#ImportShipment.findOneAndUpdate(
+            { 
+                _id: ObjectId.isValid(shipmentId) ? new ObjectId(shipmentId) : null,
+                "products.productId": productId
+            },
+            {
+                $inc: { "products.$.stoke": -quantity } // Sử dụng $ để tham chiếu đến phần tử phù hợp
+            },
+            {returnDocument: "after"}
+        )
+        return result;
     }
 }
 

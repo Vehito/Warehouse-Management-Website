@@ -68,6 +68,28 @@ class CustomerService {
         });
         return result;
     }
+
+    async decreaseDue(customerId, money) {
+        const result = await this.#Customer.findOneAndUpdate(
+            { 
+                _id: ObjectId.isValid(customerId) ? new ObjectId(customerId) : null,
+            },
+            {$dec: {due: money}},
+            {returnDocument: "after"}
+        )
+        return result;
+    }
+
+    async increaseDue(customerId, money) {
+        const result = await this.#Customer.findOneAndUpdate(
+            { 
+                _id: ObjectId.isValid(customerId) ? new ObjectId(customerId) : null,
+            },
+            {$inc: {"debt": money}},
+            {returnDocument: "after"}
+        )
+        return result;
+    }
 }
 
 module.exports = CustomerService;

@@ -4,16 +4,15 @@
             name: { type: String, default: "" },
             tableHeaders: { type: Array, default: [] },
             tableRows: { type: Array, default: [] },
-            btnContent: {
-                type: String, required: false
-            }
+            btnContents: { type: Array, required: false, default: [] },
+            btnStyles: { type: Array, require: false, default: [] }
         },
 
         emits: ["clickBtn"],
 
         methods: {
-            clickBtn(id) {
-                this.$emit('clickBtn', id);
+            clickBtn(id, btnIndex) {
+                this.$emit('clickBtn', id, btnIndex);
             }
         },
     }
@@ -51,15 +50,22 @@
                 </td>
 
                 <td
-                    v-if="btnContent"
+                    v-if="btnContents.length > 0 && btnStyles.length > 0"
                 >
-                    <button
-                        class="btn btn-secondary"
-                        type="button"
-                        @click="clickBtn(tableRow._id)"
+                    <div 
+                        v-for="(btnContent, index) in btnContents"
+                        class="d-flex flex-row justify-content-around"
                     >
-                        <span v-html="btnContent"></span>
-                    </button>
+
+                        <button
+                            :class="btnStyles[index]"
+                            class="btn"
+                            type="button"
+                            @click="clickBtn(tableRow._id, index)"
+                        >
+                            <span v-html="btnContent"></span>
+                        </button>
+                    </div>
                 </td>
             </tr>
         </tbody>

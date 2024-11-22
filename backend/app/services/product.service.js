@@ -2,8 +2,9 @@ const { ObjectId, ReturnDocument } = require("mongodb");
 const Date = require("../utils/date.util");
 
 class ProductService {
+    #Product;
     constructor(client) {
-        this.Product = client.db().collection("products");
+        this.#Product = client.db().collection("products");
     }
 
     extractProductData(payload) {
@@ -27,12 +28,12 @@ class ProductService {
     async create(payload) {
         const product = this.extractProductData(payload);
         product.quantity = 0;
-        const result = await this.Product.insertOne(product);
+        const result = await this.#Product.insertOne(product);
         return result;
     }
 
     async find(filter) {
-        const cursor = await this.Product.find(filter);
+        const cursor = await this.#Product.find(filter);
         return await cursor.toArray();
     }
 
@@ -49,7 +50,7 @@ class ProductService {
     }
 
     async findById(id) {
-        return await this.Product.findOne({
+        return await this.#Product.findOne({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
     }
@@ -57,7 +58,7 @@ class ProductService {
     async findByIds(ids) {
         if(!Array.isArray(ids) || ids.length === 0) return [];
 
-        return await this.Product.find({
+        return await this.#Product.find({
             _id: {$in: ids.map(id => ObjectId.isValid(id) ? new ObjectId(id) : null)}
         }).toArray();
     }
@@ -67,7 +68,7 @@ class ProductService {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null
         };
         const update = this.extractProductData(payload);
-        const result = await this.Product.findOneAndUpdate(
+        const result = await this.#Product.findOneAndUpdate(
             filter,
             { $set: update },
             { returnDocument: "after" }
@@ -76,25 +77,35 @@ class ProductService {
     }
 
     async delete(id) {
-        const result = await this.Product.findOneAndDelete({
+        const result = await this.#Product.findOneAndDelete({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
         return result;
     }
 
     async deleteAll() {
-        const result = await this.Product.deleteMany({});
+        const result = await this.#Product.deleteMany({});
         return result.deletedCount;
     }
 
     async increaseQuantity(id, quantity) {
-        const result = await this.Product.findOneAndUpdate(
+        const result = await this.#Product.findOneAndUpdate(
             { _id: ObjectId.isValid(id) ? new ObjectId(id) : null},
             {$inc: {quantity: quantity}},
             {returnDocument: "after"}
         )
         return result;
     }
+
+    async decreaseQuantity(id, quantity) {
+        const result = await this.#Product.findOneAndUpdate(
+            { _id: ObjectId.isValid(id) ? new ObjectId(id) : null},
+            {$inc: {quantity: -quantity}},
+            {returnDocument: "after"}
+        )
+        return result;
+    }
+
 }
 
 module.exports = ProductService;
