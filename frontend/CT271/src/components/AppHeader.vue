@@ -18,14 +18,14 @@
                 <i class="fas fa-archive"></i>
             </li>
 
-            <li class="nav-item text-center">
+            <li class="nav-item text-center" v-if="user.role==='admin'">
                 <router-link :to="{ name: 'customer'}" class="nav-link">
                     <strong>Khách hàng</strong>
                 </router-link>
                 <i class="fas fa-building"></i>
             </li>
 
-            <li class="nav-item text-center">
+            <li class="nav-item text-center" v-if="user.role==='admin'">
                 <router-link :to="{ name: 'employee'}" class="nav-link">
                     <strong>Nhân viên</strong>
                 </router-link>

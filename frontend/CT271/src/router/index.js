@@ -4,6 +4,7 @@ import Customers from "@/views/Customer/Customers.vue";
 import Employee from "@/views/Employee/Employee.vue";
 import Login from "@/views/Login.vue";
 import ExportShipment from "@/views/ExportShipment/ExportShipment.vue";
+import store from "../../store"
 
 const routes = [
     {
@@ -126,5 +127,28 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 });
+
+router.beforeEach((to, from, next) => {
+    const user = store.getters.user;
+    if (!store.getters.isLoggedIn && to.name !== 'login') {
+        next({ name: 'login' });
+    } else {
+        if (user?.role?.includes("Nhap/Xuat")) {
+            if (
+                to.name === 'product' || 
+                to.name.includes('importShipment') || 
+                to.name.includes('exportShipment')
+            ) {
+                next();
+            }
+            else {
+                next({ name: "notfound" })
+            }
+        }
+        else {
+            next();
+        }
+    }
+})
 
 export default router;
