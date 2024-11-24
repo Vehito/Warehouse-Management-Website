@@ -53,6 +53,7 @@
                     { key: "_id", name: "ID" },
                     { key: "name", name: "Tên sản phẩm" },
                     { key: "quantity", name: "Số lượng" },
+                    { key: "stoke", name: "Tồn kho" },
                     { key: "purchasePrice", name: "Giá mua" },
                     { key: "mfg", name: "Ngày sản xuất" },
                     { key: "exp", name: "Hạn sử dụng" },
@@ -81,7 +82,12 @@
                     this.importShipment.products.map((product) => {
                         product._id = product.productId
                         product.mfg = dateUtil.getStringDate(product.mfg);
-                        product.exp = dateUtil.getStringDate(product.exp);
+                        if(dateUtil.isOverdue(product.exp)) {
+                            product.exp = dateUtil.getStringDate(product.exp) + " " + "HẾT HẠN";
+                        }
+                        else {
+                            product.exp = dateUtil.getStringDate(product.exp);
+                        }
                         product.name = this.getProductName(product.productId)
                     })
                 } catch (error) {

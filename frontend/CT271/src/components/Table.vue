@@ -1,4 +1,5 @@
 <script>
+import dateUtil from '@/utlis/date.util';
     export default {
         props: {
             name: { type: String, default: "" },
@@ -46,11 +47,20 @@
                     :key="index"
                     :class="typeof(tableRow[header.key]) === 'string' ? 'text-left' : 'text-right'"
                 >
-                    {{ tableRow[header.key] }}
+                    <span 
+                        v-if="header.key==='exp' && (tableRow.exp.lastIndexOf('HẾT HẠN') !== -1)"
+                        class="text-danger"    
+                    >
+                        {{ tableRow[header.key] }}
+                    </span>
+
+                    <span v-else>
+                        {{ tableRow[header.key] }}
+                    </span>
                 </td>
 
                 <td
-                    v-if="btnContents.length > 0 && btnStyles.length > 0"
+                    v-if="btnContents.length > 0"
                 >
                     <div 
                         v-for="(btnContent, index) in btnContents"

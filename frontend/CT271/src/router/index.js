@@ -135,7 +135,7 @@ router.beforeEach((to, from, next) => {
     } else {
         if (user?.role?.includes("Nhap/Xuat")) {
             if (
-                to.name === 'product' || 
+                to.name.includes('product') || 
                 to.name.includes('importShipment') || 
                 to.name.includes('exportShipment')
             ) {

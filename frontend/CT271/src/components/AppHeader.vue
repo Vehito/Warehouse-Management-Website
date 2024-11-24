@@ -18,14 +18,14 @@
                 <i class="fas fa-archive"></i>
             </li>
 
-            <li class="nav-item text-center" v-if="user.role==='admin'">
+            <li class="nav-item text-center" v-if="user?.role==='admin'">
                 <router-link :to="{ name: 'customer'}" class="nav-link">
                     <strong>Khách hàng</strong>
                 </router-link>
                 <i class="fas fa-building"></i>
             </li>
 
-            <li class="nav-item text-center" v-if="user.role==='admin'">
+            <li class="nav-item text-center" v-if="user?.role==='admin'">
                 <router-link :to="{ name: 'employee'}" class="nav-link">
                     <strong>Nhân viên</strong>
                 </router-link>
@@ -36,7 +36,7 @@
                 <router-link :to="{ name: 'exportShipment'}" class="nav-link">
                     <strong>Xuất hàng</strong>
                 </router-link>
-                <i class="fas fa-user"></i>
+                <i class="fa-solid fa-boxes-packing"></i>
             </li>
 
             <li v-if="!isLoggedIn" class="nav-item text-center ml-5">
@@ -45,7 +45,7 @@
                 </router-link>
             </li>
 
-            <li v-else class="nav-item ml-5">
+            <li v-else class="nav-item ml-5 mt-2">
                 <div class="dropdown">
                     <button
                         class="btn btn-primary dropdown-toggle"
@@ -58,13 +58,13 @@
                         {{ user.username || 'User' }}
                     </button>
                     <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton">
-                        <router-link
+                        <!-- <router-link
                             v-if="user.id !== undefined"
                             :to="{ name: 'employee.edit', params: { id: user.id } }"
                             class="dropdown-item"
                         >
                             Thay đổi thông tin
-                        </router-link>
+                        </router-link> -->
                         <a class="dropdown-item" href="#" @click="logout">Logout</a>
                     </div>
                 </div>

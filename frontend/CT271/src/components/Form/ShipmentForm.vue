@@ -14,6 +14,7 @@
         <div 
             v-for="(product, index) in productsLocal"
             :key="index"
+            class="screen ml-5"
         >
 
             <div class="from-group">
@@ -41,7 +42,7 @@
                 </Field>
             </div>
 
-            <div class="row mt-3 ml-4">
+            <div class="d-flex justify-content-between mt-3 ml-4">
 
                 <div class="form-group mt-2 col">
                     <label :for="'quantity-' + index">Số lượng: </label>
@@ -49,7 +50,7 @@
                         :name="'quantity-' + index" 
                         :id="'quantity-' + index" 
                         type="number"
-                        class="form-control"
+                        class="form-control quantity"
                         v-model="productsLocal[index].quantity"
                     />
                     <ErrorMessage :name="'quantity-' + index" class="error-feedback" />
@@ -61,7 +62,7 @@
                         :name="'price-' + index" 
                         :id="'price-' + index" 
                         type="number"
-                        class="form-control"
+                        class="form-control price"
                         v-model="productsLocal[index].price"
                         
                     />
@@ -81,7 +82,7 @@
                         :name="'mfg-' + index"
                         :id="'mfg-' + index"
                         type="date"
-                        class="form-control"
+                        class="form-control mfg"
                         @input="event => product.mfg = event.target.value"
                     />
                 </div>
@@ -93,7 +94,7 @@
                         :name="'exp-' + index"
                         :id="'exp-' + index"
                         type="date"
-                        class="form-control"
+                        class="form-control exp"
                         @input="event => product.exp = event.target.value"
 
                     />
@@ -212,17 +213,6 @@ import * as yup from "yup";
                 }
             },
 
-            // formatToYYYYMMDD(date) {
-            //     if(!date) return;
-            //     let d = new Date(date),
-            //         month = '' + (d.getMonth() + 1),
-            //         day = '' + d.getDate(),
-            //         year = d.getFullYear();
-            //     if(month.length < 2) month = '0' + month;
-            //     if(day.length < 2) day = '0' + day;
-            //     return [year, month, day].join('-');
-            // },
-
             async getProductsList() {
                 this.productList = await ProductService.getAll();
             },
@@ -258,7 +248,8 @@ import * as yup from "yup";
                 try{
                     const productValid = this.checkProductsLocal();
                     if(productValid) {
-                        this.shipmentLocal.products = this.productsLocal
+                        this.shipmentLocal.products = this.productsLocal;
+                        this.shipmentLocal.employeeId = this.$store.getters.user.id;
                         this.$emit("submit:shipment", this.shipmentLocal);
                     }   else {
                         alert("Có lỗi trong quá trình tạo lô hàng")
@@ -276,8 +267,15 @@ import * as yup from "yup";
     }
 </script>
 
-<!-- <style scoped>
-    .error-feedback{
-        color: red;
-    }
-</style> -->
+<style>
+.quantity,
+.price,
+.mfg,
+.exp {
+    width: 200px;
+}
+
+.screen {
+    width: 700px 
+}
+</style>
